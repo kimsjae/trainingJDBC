@@ -1,4 +1,5 @@
 import dao.UserDAO;
+import model.Account;
 
 import java.io.*;
 
@@ -52,9 +53,9 @@ public class UserApp {
             }
 
             if (num == 4) {
-
+                System.out.println(dao.selectAll());
             }
-            bw.flush();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

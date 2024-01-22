@@ -1,11 +1,14 @@
 package dao;
 
 import db.DBConnection;
+import model.Account;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     public int insert(String id, String pw, int grade, String gender) {
@@ -63,7 +66,7 @@ public class UserDAO {
         return -1;
     }
 
-//    public int selectByNumber(String id) {
+//    public Account selectByNumber(String id) {
 //        Connection conn = DBConnection.getInstance();
 //        String sql = "select * from users_tb where id = ?";
 //        try {
@@ -73,13 +76,43 @@ public class UserDAO {
 //            ResultSet rs = pstmt.executeQuery();
 //
 //            if (rs.next()) {
+//                Account account = new Account(
+//                        rs.getString("id"),
+//                        rs.getString("pw"),
+//                        rs.getInt("grade"),
+//                        rs.getString("gender")
+//                );
+//                return account;
 //            }
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+//        return null;
 //    }
-//
-//    public int selectAll() {
-//
-//    }
+
+    public List<Account> selectAll() {
+        Connection conn = DBConnection.getInstance();
+        try {
+            String sql = "select * from account_tb order by number desc";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            ResultSet rs = pstmt.executeQuery(); // 테이블형태의 데이터
+
+            List<Account> accountList = new ArrayList<>();
+            while(rs.next()) {
+                Account account = new Account(
+                        rs.getString("id"),
+                        rs.getString("pw"),
+                        rs.getInt("grade"),
+                        rs.getString("gender")
+                );
+                accountList.add(account);
+            }
+            return accountList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
